@@ -1,0 +1,9 @@
+Rat No.,Session 1,Session 2,Session 3,Session 4,Session 5,Session 6
+1,Vehicle,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL)
+2,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL),Vehicle
+3,Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL),Vehicle,Substance: AC-101 Concentration: 1 (mg/mL)
+4,Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL),Vehicle,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL)
+5,Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL),Vehicle,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL)
+6,Substance: Diazepam Concentration: 1 (mg/mL),Vehicle,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL)
+7,Vehicle,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL)
+8,Substance: AC-101 Concentration: 1 (mg/mL),Substance: AC-101 Concentration: 3 (mg/mL),Substance: AC-101 Concentration: 10 (mg/mL),Substance: Diazepam Concentration: 0.5 (mg/mL),Substance: Diazepam Concentration: 1 (mg/mL),Vehicle

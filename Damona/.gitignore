@@ -1,0 +1,17 @@
+__pycache__/
+**/__pycache__/
+sleep/__pycache__/
+
+# big files
+/data/biotrial_data
+/data/crl_data
+/data/biotrial_results/
+
+# settings - paths
+code/settings.py
+
+#Pycharm
+.idea/
+
+# MacOS
+.DS_Store

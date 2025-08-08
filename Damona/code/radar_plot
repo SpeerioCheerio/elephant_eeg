@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+file_path = '/home/lucky/PycharmProjects/Damona/data/biotrial_results/neural_features_intervals_fulltime.csv'  # Update the path if needed
+
+# Step 1: Load Data
+df = pd.read_csv(file_path)
+
+# Step 2: Filter Data for specific intervals
+n_skip = 0
+n_keep = 4
+manipulation_data = df[df['stage'] == 'manipulation']
+manipulation_data_grouped = (manipulation_data
+                             .sort_values(['rat_id', 'condition', 'interval_start'])
+                             .groupby(['rat_id', 'condition'])
+                             .apply(lambda x: x.iloc[n_skip:(n_skip + n_keep)])
+                             .reset_index(drop=True))
+
+# Step 3: Handle Missing Values
+manipulation_data_grouped_filled = manipulation_data_grouped.fillna({
+    'WAKE': 0,
+    'ISQW': 0,
+    'NREM': 0,
+    'SWS': 0,
+    'REM': 0
+})
+
+# Step 4: Normalize Features
+feature_groups = {
+    'Theta Features': ['Cordance_Theta', 'hurst_exp_Theta', 'absolute_Theta', 'relative_Theta'],
+    'Sleep Stages': ['WAKE', 'ISQW', 'NREM', 'SWS', 'REM']
+}
+scaler = MinMaxScaler()
+scaled_data = manipulation_data_grouped_filled.copy()
+scaled_data[feature_groups['Theta Features'] + feature_groups['Sleep Stages']] = scaler.fit_transform(
+    manipulation_data_grouped_filled[feature_groups['Theta Features'] + feature_groups['Sleep Stages']])
+
+# Step 5: Map Conditions
+condition_map = {
+    0: 'Saline',
+    1: 'Vehicle (5 mL/kg, ip)',
+    2: 'DPX-101 (5 mg/kg, ip)',
+    3: 'DPX-101 (15 mg/kg, ip)',
+    4: 'Basmisanil (5 mg/kg, ip)',
+    5: 'MRK016 (3 mg/kg, ip)',
+    6: 'Diazepam (2 mg/kg, ip)'
+}
+scaled_data['condition'] = scaled_data['condition'].map(condition_map)
+
+# Step 6: Generate and Save Radar Plots
+average_values_scaled = scaled_data.select_dtypes(include=[np.number]).groupby(scaled_data['condition']).mean().reset_index()
+def create_radar_plot(data, feature_group, title, save_path):
+    num_vars = len(feature_group)
+    angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+    angles += angles[:1]
+    fig, ax = plt.subplots(figsize=(8, 8), subplot_kw=dict(polar=True))
+    ax.set_title(title, size=16, color='blue', y=1.1)
+
+    def add_to_radar(condition, values, color):
+        values += values[:1]
+        ax.fill(angles, values, color=color, alpha=0.25)
+        ax.plot(angles, values, color=color, linewidth=2, label=condition)
+
+    for condition, color in zip(data['condition'].unique(), ['b', 'r', 'g', 'y', 'm', 'c', 'k']):
+        add_to_radar(condition,
+                     data[data['condition'] == condition][feature_group].mean().tolist(),
+                     color)
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(feature_group)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.4, 1.2))
+    plt.tight_layout()
+    plt.savefig(save_path, format='png', bbox_inches='tight')
+
+for title, feature_group in feature_groups.items():
+    save_path = f"tmp/{title.replace(' ', '_')}_Radar_Plot.png"
+    create_radar_plot(average_values_scaled, feature_group, title, save_path)

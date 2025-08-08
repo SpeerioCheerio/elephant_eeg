@@ -1,0 +1,77 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the dataset
+file_path = '/home/lucky/PycharmProjects/Sama/Damona/data/biotrial_results/neural_features_intervals_fulltime.csv'
+df = pd.read_csv(file_path)
+
+# Filter for the stages and conditions
+df_baseline = df[df['stage'] == 'baseline']
+df_manipulation = df[df['stage'] == 'manipulation']
+
+# Conditions for manipulation stage
+df_condition_1_manipulation = df_manipulation[df_manipulation['condition'] == 1]
+df_condition_3_manipulation = df_manipulation[df_manipulation['condition'] == 3]
+df_condition_6_manipulation = df_manipulation[df_manipulation['condition'] == 6]
+
+# Conditions for baseline stage
+df_condition_1_baseline = df_baseline[df_baseline['condition'] == 1]
+df_condition_3_baseline = df_baseline[df_baseline['condition'] == 3]
+df_condition_6_baseline = df_baseline[df_baseline['condition'] == 6]
+
+# Function to calculate percent change
+def calculate_percent_change(df1, df2, condition):
+    merged_df = pd.merge(df1, df2, on=['interval_start', 'interval_end'], suffixes=('_cond1', f'_cond{condition}'))
+    percent_change = ((merged_df[f'absolute_Beta2_cond{condition}'] - merged_df['absolute_Beta2_cond1']) / merged_df['absolute_Beta2_cond1']) * 100
+    #percent_change = ((merged_df[f'absolute_Delta_cond{condition}'] - merged_df['absolute_Delta_cond1']) / merged_df['absolute_Delta_cond1']) * 100
+    #percent_change = ((merged_df[f'absolute_Theta_cond{condition}'] - merged_df['absolute_Theta_cond1']) / merged_df['absolute_Theta_cond1']) * 100
+    #percent_change = ((merged_df[f'absolute_Alpha_cond{condition}'] - merged_df['absolute_Alpha_cond1']) / merged_df['absolute_Alpha_cond1']) * 100
+    #percent_change = ((merged_df[f'absolute_Beta1_cond{condition}'] - merged_df['absolute_Beta1_cond1']) / merged_df['absolute_Beta1_cond1']) * 100
+    #percent_change = ((merged_df[f'absolute_Gamma1_cond{condition}'] - merged_df['absolute_Gamma1_cond1']) / merged_df['absolute_Gamma1_cond1']) * 100
+    return merged_df.assign(percent_change_power=percent_change)
+
+# Manipulation data
+data_cond3_manipulation = calculate_percent_change(df_condition_1_manipulation, df_condition_3_manipulation, 3)
+data_cond6_manipulation = calculate_percent_change(df_condition_1_manipulation, df_condition_6_manipulation, 6)
+
+# Baseline data
+data_cond3_baseline = calculate_percent_change(df_condition_1_baseline, df_condition_3_baseline, 3)
+data_cond6_baseline = calculate_percent_change(df_condition_1_baseline, df_condition_6_baseline, 6)
+
+# Adjusting the baseline intervals
+baseline_duration = df_baseline['interval_end'].max() - df_baseline['interval_start'].min()
+baseline_start_adjusted = -baseline_duration
+
+data_cond3_baseline['interval_start'] = baseline_start_adjusted + data_cond3_baseline['interval_start'] - df_baseline['interval_start'].min()
+data_cond6_baseline['interval_start'] = baseline_start_adjusted + data_cond6_baseline['interval_start'] - df_baseline['interval_start'].min()
+
+# Combining baseline and manipulation data
+combined_data_cond3 = pd.concat([data_cond3_baseline, data_cond3_manipulation])
+combined_data_cond6 = pd.concat([data_cond6_baseline, data_cond6_manipulation])
+
+# Calculating mean and SEM for plotting
+def calculate_mean_sem(data):
+    grouped_data = data.groupby('interval_start').agg({'percent_change_power': ['mean', 'sem']}).droplevel(0, axis=1)
+    return grouped_data
+
+mean_sem_cond3 = calculate_mean_sem(combined_data_cond3)
+mean_sem_cond6 = calculate_mean_sem(combined_data_cond6)
+
+# Plotting with error bars
+plt.figure(figsize=(12, 6))
+
+condition_map = {
+    '3': 'DPX-101 (15 mg/kg, ip)',
+    '6': 'Diazepam (2 mg/kg, ip)'
+}
+
+plt.errorbar(mean_sem_cond3.index, mean_sem_cond3['mean'], yerr=1.96 * mean_sem_cond3['sem'], label=f"{condition_map['3']}", color='blue', fmt='-o')
+plt.errorbar(mean_sem_cond6.index, mean_sem_cond6['mean'], yerr=1.96 * mean_sem_cond6['sem'], label=f"{condition_map['6']}", color='red', fmt='-o')
+
+plt.axvline(x=0, color='grey', linestyle='--')  # Marking the onset of 'manipulation' stage
+plt.xlabel('Time Relative to Onset of Manipulation (s)')
+plt.ylabel('Average Percent Change (%)')
+plt.title('Percent change in high Beta relative to vehicle condition including baseline')
+plt.legend()
+plt.grid(True)
+plt.show()

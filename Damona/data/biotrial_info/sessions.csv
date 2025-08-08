@@ -1,0 +1,9 @@
+Rat No.,Session 1,Session 2,Session 3,Session 4,Session 5,Session 6,Session 7
+9,Saline,AC101 (5 mg/kg),Basmisanil (5 mg/kg),Diazepam (2 mg/kg),AC101 (15 mg/kg),MRK016 (3 mg/kg),Vehicle
+2/1*,Saline,Basmisanil (5 mg/kg),AC101 (15 mg/kg),AC101 (5 mg/kg),Vehicle,Diazepam (2 mg/kg),MRK016 (3 mg/kg)
+3,Saline,AC101 (15 mg/kg),Vehicle,Basmisanil (5 mg/kg),MRK016 (3 mg/kg),AC101 (5 mg/kg),Diazepam (2 mg/kg)
+4,Saline,Vehicle,MRK016 (3 mg/kg),AC101 (15 mg/kg),Diazepam (2 mg/kg),Basmisanil (5 mg/kg),AC101 (5 mg/kg)
+6,Saline,MRK016 (3 mg/kg),Diazepam (2 mg/kg),Vehicle,AC101 (5 mg/kg),AC101 (15 mg/kg),Basmisanil (5 mg/kg)
+7,Saline,Diazepam (2 mg/kg),AC101 (5 mg/kg),MRK016 (3 mg/kg),Basmisanil (5 mg/kg),Vehicle,AC101 (15 mg/kg)
+10,Saline,AC101 (5 mg/kg),AC101 (15 mg/kg),Diazepam (2 mg/kg),MRK016 (3 mg/kg),Vehicle,Basmisanil (5 mg/kg)
+12,Saline,Basmisanil (5 mg/kg),Vehicle,MRK016 (3 mg/kg),Diazepam (2 mg/kg),AC101 (15 mg/kg),AC101 (5 mg/kg)
