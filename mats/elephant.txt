@@ -1,0 +1,32 @@
+Elephant - Electrophysiology Analysis Toolkit
+Elephant (Electrophysiology Analysis Toolkit) is an emerging open-source, community centered library for the analysis of electrophysiological data in the Python programming language.
+
+The focus of Elephant is on generic analysis functions for spike train data and time series recordings from electrodes, such as the local field potentials (LFP) or intracellular voltages. In addition to providing a common platform for analysis codes from different laboratories, the Elephant project aims to provide a consistent and homogeneous analysis framework that is built on a modular foundation. Elephant is the direct successor to Neurotools and maintains ties to complementary projects such as ephyviewer and neurotic for raw data visualization.
+
+The input-output data format is either Neo, Quantity or Numpy array. Quantity is a Numpy-wrapper package for handling physical quantities like seconds, milliseconds, Hz, volts, etc. Quantity is used in both Neo and Elephant.
+
+Visualization of Elephant analysis objects
+
+Viziphant package is developed by Elephant team and provides a high-level API to easily generate plots and interactive visualizations of neuroscientific data and analysis results. The API uses and extends the same structure as in Elephant to ensure intuitive usage for scientists that are used to Elephant.
+
+Recording of Elephant analysis provenance
+
+Alpaca can be used to track the data flow of Elephant analysis results through minimal extra code in your analysis script, resulting in a PROV compatible provenance trail that can be used for archival and search. For a detailed example, see the tutorial of the Alpaca documentation demonstrating a full workflow of capturing analysis provenance using Elephant.
+
+Table of Contents
+Installation
+
+Tutorials
+
+Function Reference by Module
+
+Contributing to Elephant
+
+Release Notes
+
+Acknowledgments
+
+Authors and contributors
+
+Citing Elephant
+
